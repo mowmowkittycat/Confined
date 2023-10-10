@@ -1,0 +1,10 @@
+[package]
+name = "somew/confined"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+remo = "littensy/remo@1.2.3"
+goodsignal = "stravant/goodsignal@0.2.1"
+cmdr = "evaera/cmdr@1.12.0"
