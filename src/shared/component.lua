@@ -29,5 +29,5 @@ return function(tag, class)
 		tagAdded(object)
 	end
 
-	return class
+	return class, members
 end
