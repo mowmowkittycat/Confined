@@ -10,8 +10,7 @@ local viewButton, buttons = component("viewButton", class(function(self, object)
 	self.part = object ---@type Part
 
 	function self:Init()
-		self.part.Parent = workspace
-		print(self)
+		
 	end
 
 	function self:Activate()
@@ -20,22 +19,11 @@ local viewButton, buttons = component("viewButton", class(function(self, object)
 	end
 
 	function self:Cleanup()
-		print("fuck u 2")
-		print(self)
+		
 	end
 
 	return self
 end))
-while Players.LocalPlayer.Character == nil do wait() end
-
-print(buttons)
-
-
-
-
-
-
-
 
 local module = {
 	viewButton,
