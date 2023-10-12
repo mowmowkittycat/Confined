@@ -25,7 +25,6 @@ end)
 
 UserInputService.InputBegan:Connect(function(input: InputObject)
 	if (input.KeyCode == Enum.KeyCode.S) then
-		print(viewButtons)
 		viewButtons.goBack()
 	end
 end)
