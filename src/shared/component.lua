@@ -1,15 +1,22 @@
 local CollectionService = game:GetService("CollectionService")
 
-return function(tag, class)
+type Component = { 
+	Init: () -> nil,
+	Cleanup: () -> nil,
+	instance: Part,
+}
 
-	local members = {}
+return function(tag, class): (Component, { Component })
+
+	local members: { Component } = {}
 
 	if class.Init == nil then class.Init = function() end end
 	if class.Cleanup == nil then class.Cleanup = function() end end
 
 	local tagAdded = function(object)
 		if object:IsA("BasePart") == false then return end
-		local component = class(object)
+		local component: Component = class()
+		component.instance = object
 		members[object] = component
 		members[object]:Init()
 	end
