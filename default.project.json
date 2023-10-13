@@ -12,6 +12,9 @@
       },
 	  "Lang": {
 		"$path": "src/lang"
+	  },
+	  "Items": {
+		"$path": "src/items"
 	  }
     },
 
