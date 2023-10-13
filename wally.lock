@@ -20,7 +20,12 @@ dependencies = [["Promise", "evaera/promise@4.0.0"]]
 [[package]]
 name = "mowmowkittycat/confined"
 version = "0.1.0"
-dependencies = [["cmdr", "evaera/cmdr@1.12.0"], ["goodsignal", "stravant/goodsignal@0.2.1"], ["remo", "littensy/remo@1.2.3"]]
+dependencies = [["cmdr", "evaera/cmdr@1.12.0"], ["goodsignal", "stravant/goodsignal@0.2.1"], ["remo", "littensy/remo@1.2.3"], ["roact", "roblox/roact@1.4.4"]]
+
+[[package]]
+name = "roblox/roact"
+version = "1.4.4"
+dependencies = []
 
 [[package]]
 name = "stravant/goodsignal"

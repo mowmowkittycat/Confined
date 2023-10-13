@@ -114,7 +114,7 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 				if (self.isActive) then return end
 				self.instance.Transparency = 1
 			end)
-			
+
 
 			local titleLang = lang[self.instance.Name].HoverTitle
 
@@ -125,13 +125,13 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 	end
 
 	function self:HoverLeave()
-		
+		self.hoverAttempt = 0
 		if (self.hasHover == false) then return end
 		if (self.Text == nil) then return end
 		self.hasHover = false
-		
+
 		if (canActivate == true) then TweenService:Create(self.instance, TweenInfo.new(0.2), { Transparency = 0.5 } ):Play() end
-		
+
 
 		local textValue: TextLabel = self.Text:FindFirstChild("UI"):FindFirstChild("Text")
 
@@ -181,6 +181,7 @@ function reloadViewButtons()
 end
 
 function goBack()
+	if (activeButton.instance:GetAttribute("cantBack") == true) then return end
 	local lastButton = buttons[activeButton.instance.Parent]
 
 	if (lastButton == nil) then return end

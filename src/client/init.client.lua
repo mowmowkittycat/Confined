@@ -6,6 +6,7 @@ local UserInputService = game:GetService("UserInputService")
 local viewButtons = require(script.viewButtons)
 
 
+
 Players.LocalPlayer.CharacterAdded:Connect(function(character)
 	wait()
 	local Camera = workspace.CurrentCamera
