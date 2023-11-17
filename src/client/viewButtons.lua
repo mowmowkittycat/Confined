@@ -1,5 +1,6 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StarterPlayer = game:GetService("StarterPlayer")
 local TweenService = game:GetService("TweenService")
 
 local player = Players.LocalPlayer
@@ -10,6 +11,7 @@ local class = require(ReplicatedStorage.Shared.class)
 local lang = require(ReplicatedStorage.Lang.sectionOne)
 local component = require(ReplicatedStorage.Shared.component)
 local events = require(ReplicatedStorage.Shared.events)
+local cutscenes = require(StarterPlayer.StarterPlayerScripts.Client.cutscenes)
 
 local activeButton: viewButton = nil;
 local canActivate = true
@@ -55,9 +57,7 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 
 	end
 
-	function self:Activate()
-		if (canActivate == false) then return end
-		canActivate = false
+	function self:TweenToButton()
 		local Camera = game.Workspace.CurrentCamera
 		local tweenInfo = TweenInfo.new(self.instance:GetAttribute("tweenTime") or 0.5)
 		local tween = TweenService:Create(Camera, tweenInfo, { CFrame =  self.instance.CFrame })
@@ -67,6 +67,30 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 			wait()
 			canActivate = true
 		end)
+	end
+
+	function self:Activate()
+		if (canActivate == false) then return end
+		canActivate = false
+		events.viewButtonActivate:Fire(self)
+		if (self.instance:GetAttribute("cutscene") == nil) then
+			if (activeButton == nil) then 
+				self:TweenToButton()
+			elseif (activeButton.instance:GetAttribute("cutscene") == nil) then
+				self:TweenToButton()
+			else
+				local cutscene = activeButton.instance:GetAttribute("cutscene")
+				cutscenes.playCutscene(cutscene, true)
+				self:TweenToButton()
+			end
+
+
+		else
+			local cutscene = self.instance:GetAttribute("cutscene")
+			cutscenes.playCutscene(cutscene)
+			canActivate = true
+		end
+
 
 		activeButton = self
 		if (self.Text ~= nil) then
@@ -75,9 +99,8 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 		end
 		if (self.hasHover) then self.hasHover = false end
 
-		
 		reloadViewButtons()
-		events.viewButtonActivate:Fire(self)
+		
 
 	end
 
@@ -186,7 +209,6 @@ function goBack()
 
 	if (lastButton == nil) then return end
 
-	print(lastButton)
 
 	lastButton:Activate()
 

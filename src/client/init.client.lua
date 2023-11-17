@@ -3,8 +3,7 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
 
-local viewButtons = require(script.viewButtons)
-
+local viewButtons = nil;
 
 
 Players.LocalPlayer.CharacterAdded:Connect(function(character)
@@ -12,13 +11,16 @@ Players.LocalPlayer.CharacterAdded:Connect(function(character)
 	local Camera = workspace.CurrentCamera
 	Camera.CameraType = Enum.CameraType.Scriptable
 	Camera.FieldOfView = 90
+	viewButtons = require(script.viewButtons)
 
+	
 	while (viewButtons.buttons == nil) do wait() end
 	local firstButton: viewButtons.viewButton = viewButtons.buttons[game.Workspace:FindFirstChild("Buttons"):GetChildren()[1]]
 	Camera.CFrame = firstButton.instance.CFrame
 	firstButton:Activate()
 
 end)
+
 
 
 

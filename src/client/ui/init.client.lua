@@ -3,6 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Roact = require(ReplicatedStorage.Packages.roact)
 local Subtitle = require(script.subtitle)
+local Inventory = require(script.inventory)
 local Scale = require(script.uiScale)
 
 local app = Roact.createElement("ScreenGui", {
@@ -29,10 +30,20 @@ local app = Roact.createElement("ScreenGui", {
 
 			}, {
 				Subtitle = Roact.createElement(Subtitle),
-			})
+				
+			}),
+			Inventory = Roact.createElement(Inventory)
+
 			
 		}
 	),
+	NoScaleFrame = Roact.createElement("Frame", {
+		Size=UDim2.fromScale(1,1),
+		AnchorPoint = Vector2.new(0.5,0.5),
+		Position = UDim2.fromScale(0.5,0.5),
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0
+	}, {})
 
 })
 

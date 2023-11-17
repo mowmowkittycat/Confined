@@ -7,6 +7,12 @@ local events = {
 	["itemAdded"] = Signal.new(),
 	-- (string) -> void
 	["itemRemoved"] = Signal.new(),
+	-- (string) -> void
+	["itemAmountChange"] = Signal.new(),
+	-- (string) -> void
+	["cutsceneStart"] = Signal.new(),
+	-- (string) -> void
+	["cutsceneStop"] = Signal.new()
 
 
 

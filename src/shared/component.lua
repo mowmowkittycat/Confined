@@ -15,13 +15,10 @@ return function(tag, class): (Component, { Component })
 
 	local tagAdded = function(object)
 		if object:IsA("BasePart") == false then return end
-		print(object.Name)
 		if (members[object] ~= nil) then return end
-		print(members[object])
 		local component: Component = class()
 		component.instance = object
 		members[object] = component
-		print("Test")
 		members[object]:Init()
 	end
 
@@ -37,7 +34,6 @@ return function(tag, class): (Component, { Component })
 	CollectionService:GetInstanceRemovedSignal(tag):Connect(tagRemoved)
 
 	for _, object in pairs(CollectionService:GetTagged(tag)) do
-		print("test")
 		tagAdded(object)
 	end
 

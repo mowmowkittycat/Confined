@@ -3,5 +3,6 @@ return {
 	["button2"] = { ["HoverTitle"] = "Go to Test", ["Subtitle"] = "oh wow i just pressed a button so cool" },
 	["button3"] = { ["HoverTitle"] = "Go to Test2", ["Subtitle"] = "WOWZERS!!! ANOTHER BUTTON!!!! SHOOOOO COOOLLLL MAN!! WOWOWZERS"},
 	["button4"] = { ["HoverTitle"] = "Go to Different Button", ["Subtitle"] = "diffen buton"},
+	["button5"] = { ["HoverTitle"] = "This is a cutscene", ["Subtitle"] = "wow cool cutscene"},
 
 }
