@@ -4,6 +4,7 @@ local UserInputService = game:GetService("UserInputService")
 
 
 local viewButtons = nil;
+local interactables = nil;
 
 
 Players.LocalPlayer.CharacterAdded:Connect(function(character)
@@ -12,6 +13,9 @@ Players.LocalPlayer.CharacterAdded:Connect(function(character)
 	Camera.CameraType = Enum.CameraType.Scriptable
 	Camera.FieldOfView = 90
 	viewButtons = require(script.viewButtons)
+	interactables = require(script.interactable)
+	
+	
 
 	
 	while (viewButtons.buttons == nil) do wait() end

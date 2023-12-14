@@ -15,6 +15,7 @@ local cutscenes = require(StarterPlayer.StarterPlayerScripts.Client.cutscenes)
 
 local activeButton: viewButton = nil;
 local canActivate = true
+local viewedButtons = {}
 
 export type viewButton = {
 	Init: () -> nil,
@@ -72,6 +73,14 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 	function self:Activate()
 		if (canActivate == false) then return end
 		canActivate = false
+		if (not viewedButtons[self.instance.Name]) then
+			viewedButtons[self.instance.Name] = true
+			if (lang.viewButton[self.instance.Name]) then
+				events.changeSubtitle:Fire(lang.viewButton[self.instance.Name].Subtitle)
+			end
+		else
+			events.changeSubtitle:Fire("")
+		end
 		events.viewButtonActivate:Fire(self)
 		if (self.instance:GetAttribute("cutscene") == nil) then
 			if (activeButton == nil) then 
@@ -139,7 +148,7 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 			end)
 
 
-			local titleLang = lang[self.instance.Name].HoverTitle
+			local titleLang = lang.viewButton[self.instance.Name].HoverTitle
 
 			typewrite(textValue, titleLang)
 

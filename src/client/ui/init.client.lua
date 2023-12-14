@@ -5,6 +5,9 @@ local Roact = require(ReplicatedStorage.Packages.roact)
 local Subtitle = require(script.subtitle)
 local Inventory = require(script.inventory)
 local Scale = require(script.uiScale)
+local interactHover = require(script.interactHover)
+
+
 
 local app = Roact.createElement("ScreenGui", {
 	IgnoreGuiInset = true
@@ -43,7 +46,9 @@ local app = Roact.createElement("ScreenGui", {
 		Position = UDim2.fromScale(0.5,0.5),
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0
-	}, {})
+	}, {
+		Roact.createElement(interactHover, {}, {})
+	})
 
 })
 

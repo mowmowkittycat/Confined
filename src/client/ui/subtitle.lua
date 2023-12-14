@@ -7,39 +7,28 @@ local lang = require(ReplicatedStorage.Lang.sectionOne)
 
 local Subtitle = Roact.Component:extend("Subtitle")
 
-local viewedButtons = {};
-local currentButton = nil;
-
-
 function Subtitle:init()
 	self.TextLabel = Roact.createRef();
+	self.subtitle = nil;
 
-	self.buttonListener = events.viewButtonActivate:Connect(function(viewButton)
-		if (lang[viewButton.instance.Name] == nil) then return end
-		if (viewedButtons[viewButton.instance.Name] ~= nil) then
-			if (currentButton == nil) then self.TextLabel:getValue().Text = "" end
-			return
-		end
-
-		currentButton = viewButton.instance.Name
-		
-		viewedButtons[viewButton.instance.Name] = true
-
+	self.subtitleListener =  events.changeSubtitle:Connect(function(subtitle)
 		local text = self.TextLabel:getValue()
 		text.Text = ""
-		for char in string.gmatch(lang[viewButton.instance.Name].Subtitle, utf8.charpattern) do
-			if (currentButton ~= viewButton.instance.Name) then return end
+		self.subtitle = subtitle
+		for char in string.gmatch(subtitle, utf8.charpattern) do
+			if (self.subtitle ~= subtitle) then return end
 			text.Text = text.Text .. char
 			task.wait(0.02)
 		end
-		currentButton = nil;
+		
 	end)
+
 
 
 end
 
 function Subtitle:willUnmount()
-	self.buttonListener:Disconnect();
+	self.subtitleListener:Disconnect();
 end
 
 

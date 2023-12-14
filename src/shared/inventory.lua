@@ -11,9 +11,17 @@ export type inventorySlot = {
 
 local inventory: { inventorySlot } = { }
 
+local test = {
+
+	10,20
+}
+print(test)
+table.remove(test, 1)
+print(test)
+
 exports.getItem = function(string: string): ( inventorySlot, number )
 	for i, v in pairs(inventory) do
-		if (v == string) then
+		if (v.item == string) then
 			return v, i
 		end
 	end
@@ -66,9 +74,6 @@ exports.removeItem = function(string: string, amount: number): boolean
 	return true
 
 end
-
-exports.giveItem("wrench",3)
-exports.giveItem("test",5)
 
 return exports
 
