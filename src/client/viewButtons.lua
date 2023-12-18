@@ -8,10 +8,12 @@ local player = Players.LocalPlayer
 local Objects = ReplicatedStorage:FindFirstChild("Objects")
 
 local class = require(ReplicatedStorage.Shared.class)
-local lang = require(ReplicatedStorage.Lang.sectionOne)
 local component = require(ReplicatedStorage.Shared.component)
 local events = require(ReplicatedStorage.Shared.events)
 local cutscenes = require(StarterPlayer.StarterPlayerScripts.Client.cutscenes)
+
+local lang = require(ReplicatedStorage.Lang).getLang()
+local sound = require(ReplicatedStorage.Sound)
 
 local activeButton: viewButton = nil;
 local canActivate = true
@@ -81,24 +83,51 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 		else
 			events.changeSubtitle:Fire("")
 		end
-		events.viewButtonActivate:Fire(self)
-		if (self.instance:GetAttribute("cutscene") == nil) then
-			if (activeButton == nil) then 
-				self:TweenToButton()
-			elseif (activeButton.instance:GetAttribute("cutscene") == nil) then
-				self:TweenToButton()
+		
+		if (activeButton ~= nil) then
+			if (activeButton.instance.Parent == self.instance) then
+				if (activeButton.instance:GetAttribute("cutscene") == nil) then
+
+					if (self.instance:GetAttribute("cutscene") ~= nil) then
+						local cutscene = self.instance:GetAttribute("cutscene")
+						local tweenPart = cutscenes.getLastScene(cutscene)
+						local Camera = game.Workspace.CurrentCamera
+						local tweenInfo = TweenInfo.new(self.instance:GetAttribute("tweenTime") or 0.5)
+						local tween = TweenService:Create(Camera, tweenInfo, { CFrame =  tweenPart.CFrame })
+						tween:Play()
+					else 
+						self:TweenToButton()
+					end
+				else
+					local cutscene = activeButton.instance:GetAttribute("cutscene")
+					cutscenes.playCutscene(cutscene, true)
+					self:TweenToButton()
+				end
 			else
-				local cutscene = activeButton.instance:GetAttribute("cutscene")
-				cutscenes.playCutscene(cutscene, true)
+				sound.getSound("buttonClick"):Play()
+				if (self.instance:GetAttribute("cutscene") ~= nil) then
+					local cutscene = self.instance:GetAttribute("cutscene")
+					cutscenes.playCutscene(cutscene)
+				else 
+					self:TweenToButton()
+				end
+			end
+		else 
+			sound.getSound("buttonClick"):Play()
+			if (self.instance:GetAttribute("cutscene") ~= nil) then
+				local cutscene = self.instance:GetAttribute("cutscene")
+				cutscenes.playCutscene(cutscene)
+			else 
 				self:TweenToButton()
 			end
-
-
-		else
-			local cutscene = self.instance:GetAttribute("cutscene")
-			cutscenes.playCutscene(cutscene)
-			canActivate = true
 		end
+
+		
+
+		canActivate = true
+
+
+
 
 
 		activeButton = self
@@ -125,6 +154,11 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 				end
 			end
 		end
+		if (self.instance:GetAttribute("sound")) then 
+			sound.getSound(self.instance:GetAttribute("sound")):Play()
+		else 
+			sound.getSound("buttonHover"):Play()
+		end
 		self.hoverAttempt = 0
 		self.hasHover = true
 		TweenService:Create(self.instance, TweenInfo.new(0.2), { Transparency = 0.4 } ):Play()
@@ -133,7 +167,19 @@ local viewButton, buttons: { viewButton } = component("viewButton", class(functi
 		if (self.Text ~= nil) then
 			self.Text.Parent = self.instance
 			self.Text.CFrame = self.instance.CFrame
-			self.Text.Position = Vector3.new(self.Text.Position.X, self.Text.Position.Y + 1.8, self.Text.Position.Z)
+			self.Text.Position = Vector3.new(self.instance.Position.X, self.instance.Position.Y + (self.instance.Size.Y * 1.1), self.Text.Position.Z)
+			if (self.instance:GetAttribute("side") == 1) then
+				local add = self.instance.CFrame.RightVector * ( ((self.Text.Size.X * 1.2) / 2 ) + (self.instance.Size.X / 2))
+				self.Text.Position = Vector3.new(self.instance.Position.X, self.instance.Position.Y, self.Text.Position.Z)
+				self.Text.Position += add
+			elseif (self.instance:GetAttribute("side") == 2) then
+				self.Text.Position = Vector3.new(self.instance.Position.X, self.instance.Position.Y - (self.instance.Size.Y * 1.1), self.Text.Position.Z)
+			elseif (self.instance:GetAttribute("side") == 3) then
+				local add = self.instance.CFrame.RightVector * ( ((self.Text.Size.X * 1.2) / 2 ) + (self.instance.Size.X / 2))
+				self.Text.Position = Vector3.new(self.instance.Position.X, self.instance.Position.Y, self.Text.Position.Z)
+				self.Text.Position -= add
+			end
+			
 
 			local textValue: TextLabel = self.Text:FindFirstChild("UI"):FindFirstChild("Text")
 

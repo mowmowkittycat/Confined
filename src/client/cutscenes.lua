@@ -44,7 +44,15 @@ function playCutscene(cutscene: string, reverese: boolean)
 	events.cutsceneStop:Fire(cutscene)
 end
 
+function getLastScence(cutscene: string)
+	if (cutscenes[cutscene] == nil) then return end
+	local size = table.getn(cutscenes[cutscene])
+
+	return cutscenes[cutscene][size]
+end
+
 return {
 	cutscenes = cutscenes,
-	playCutscene = playCutscene
+	playCutscene = playCutscene,
+	getLastScene = getLastScence
 }

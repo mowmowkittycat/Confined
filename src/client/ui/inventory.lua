@@ -8,8 +8,8 @@ local GuiService = game:GetService("GuiService")
 
 local Roact = require(ReplicatedStorage.Packages.roact)
 local events = require(ReplicatedStorage.Shared.events)
-local state = require(ReplicatedStorage.Shared.state)
-local items = require(ReplicatedStorage.Items.sectionOne)
+local state = require(ReplicatedStorage.Shared.state).state
+local items = require(ReplicatedStorage.Items).getItems()
 local inventory = require(ReplicatedStorage.Shared.inventory)
 
 local Inventory = Roact.Component:extend("Inventory")
@@ -67,6 +67,7 @@ function Inventory:render()
 							self.itemRefs[i]:getValue().Position = UDim2.fromOffset(mousepos.X,mousepos.Y)
 						end)
 						isHeld = true
+						state.heldItem = v.item;
 						events.interactHover:Fire("")
 					end
 				end
@@ -81,7 +82,8 @@ function Inventory:render()
 						self.itemRefs[i]:getValue().Parent = parent
 						self.itemRefs[i]:getValue().ZIndex = 10;
 						isHeld = false
-						events.createInteractClick:Fire(v.item)
+						events.createInteractClick:Fire()
+						state.heldItem = nil;
 					end
 				end
 				

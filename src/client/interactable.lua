@@ -3,16 +3,20 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterPlayer = game:GetService("StarterPlayer")
 
 local class = require(ReplicatedStorage.Shared.class)
-local lang = require(ReplicatedStorage.Lang.sectionOne)
+
 local component = require(ReplicatedStorage.Shared.component)
 local events = require(ReplicatedStorage.Shared.events)
 local interactables = require(StarterPlayer.StarterPlayerScripts.Client.interactables)
 
+local lang = require(ReplicatedStorage.Lang).getLang()
+local sound = require(ReplicatedStorage.Sound)
+ 
 export type interactable = {
 	Init: () -> nil,
 	instance: BasePart,
 	ClickDetector: ClickDetector,
 }
+
 
 local interactable, count = component("interactable", class(function(self: interactable) 
 
@@ -32,15 +36,15 @@ local interactable, count = component("interactable", class(function(self: inter
 		self.ClickDetector.MouseHoverEnter:Connect(function() self:Hover() end)
 		self.ClickDetector.MouseHoverLeave:Connect(function() self:HoverLeave() end)
 		self.ClickDetector.MouseClick:Connect(function() self:Interact() end)
-		events.createInteractClick:Connect(function(item)
+		events.createInteractClick:Connect(function()
 			if not (self.hasHover) then return end
 			if not (self.interactClass.itemInteract) then return end
-			self.interactClass.item = item
 			self:Interact()
 		end)
 	end
 
 	function self:Hover()
+		sound.getSound("buttonHover"):Play()
 		self.hasHover = true
 		if (self.instance:GetAttribute("hoverText")) then
 			events.interactHover:Fire(lang.interactable[self.instance:GetAttribute("hoverText")])
@@ -57,9 +61,13 @@ local interactable, count = component("interactable", class(function(self: inter
 	end
 
 	function self:Interact()
-			self.interactClass:Interact()
-			self.interactClass.item = nil
-		if not (self.interactClass) then self = nil end
+		local interact = self.interactClass:Interact()
+		events.interactHover:Fire("")
+		if (interact == true) then self = nil return end
+		if (self.instance:GetAttribute("hoverText")) then
+			events.interactHoverEnd:Fire(lang.interactable[self.instance:GetAttribute("hoverText")])
+			events.interactHover:Fire(lang.interactable[self.instance:GetAttribute("hoverText")])
+		end
 
 		
 		

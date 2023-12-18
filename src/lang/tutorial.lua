@@ -6,6 +6,7 @@ return {
 		["button4"] = { ["HoverTitle"] = "Go to Different Button", ["Subtitle"] = "diffen buton"},
 		["button5"] = { ["HoverTitle"] = "This is a cutscene", ["Subtitle"] = "wow cool cutscene"},
 		["pastdoor"] = { ["HoverTitle"] = "Go Past Door", ["Subtitle"] = "wow cool door"},
+		["test"] = { ["HoverTitle"] = "idk", ["Subtitle"] = "wwow testing"},
 	},
 	["interactable"] = {
 		["test"] = "open the best test chest",

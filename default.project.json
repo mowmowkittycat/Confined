@@ -15,6 +15,9 @@
 	  },
 	  "Items": {
 		"$path": "src/items"
+	  },
+	  "Sound": {
+		"$path": "src/sound"
 	  }
     },
 

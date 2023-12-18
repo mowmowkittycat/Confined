@@ -11,13 +11,6 @@ export type inventorySlot = {
 
 local inventory: { inventorySlot } = { }
 
-local test = {
-
-	10,20
-}
-print(test)
-table.remove(test, 1)
-print(test)
 
 exports.getItem = function(string: string): ( inventorySlot, number )
 	for i, v in pairs(inventory) do
